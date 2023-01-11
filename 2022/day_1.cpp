@@ -46,9 +46,9 @@ vector<vector<int>> read_file_and_tokenise_input(string filename){
     return tokens; 
 }
 
-int main(){
+int main(int argc, char** argv){
     // Tokenising my string. 
-    auto tokens = read_file_and_tokenise_input("input_1.txt"); 
+    auto tokens = read_file_and_tokenise_input(argv[1]); 
     int best_elf = 0, curr_elf=0;
     for(auto& vec: tokens){
         for (auto& token: vec){ 
