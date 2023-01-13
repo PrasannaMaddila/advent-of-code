@@ -1,72 +1,40 @@
-#include<vector>
-#include<algorithm>
 #include<iostream>
-#include<numeric>
-
-#include<fstream>
 #include<string>
-#include<sstream>
+#include<algorithm>
+#include<vector>
 
-using namespace std; 
+using std::string;
+using std::vector; 
 
-vector<int> split_string_by(string str, char delim){
-    // Splits a string by delim and returns 
-    // the vector results.
-    stringstream ss(str); 
-    vector<int> results;
-    string word;  
-    while ( getline(ss, word, delim) ){
-        results.push_back(stoi(word)); 
-    }
-    return results; 
-}
+int main(){
+    string buffer;
+    vector<int> elves; 
 
-vector<vector<int>> read_file_and_tokenise_input(string filename){
-    // Read the file
-    ifstream fd; 
-    fd.open(filename, ifstream::in);
-    if(!fd.is_open()){
-        cout << "File not found!" ; 
-        exit(0); 
-    }
+    short num_newlines = 0;
+    int curr_sum = 0; 
+    while(num_newlines < 2){ 
+        while (getline(std::cin, buffer)){
+            if (buffer.empty()) {
+                num_newlines += 1; 
+                break; 
+            } 
+            else{ 
+                num_newlines = 0; // reset the counter 
+                curr_sum += stoi(buffer); 
+            } // end of if-else
+        } // end of inner loop 
 
-    stringstream str_stream;
-    str_stream << fd.rdbuf();
-    string str = str_stream.str(); 
+        elves.push_back(curr_sum);
+        curr_sum = 0;  
+    }// end of outer loop
 
-    // Tokenising my string 
-    size_t pos = 0; 
-    vector<vector<int>> tokens;
-    string item; 
-    while ((pos = str.find("\n\n")) != string::npos) {
-        item = str.substr(0, pos);
-        tokens.push_back( split_string_by(item, '\n') ); 
-        str.erase(0, pos + 2);
-    }
-    return tokens; 
-}
-
-int main(int argc, char** argv){
-    // Tokenising my string. 
-    auto tokens = read_file_and_tokenise_input(argv[1]); 
-    int best_elf = 0, curr_elf=0;
-    for(auto& vec: tokens){
-        for (auto& token: vec){ 
-            curr_elf += token; 
-        } 
-        best_elf = max(best_elf, curr_elf); 
-        curr_elf = 0; 
-    }
-    
-    partial_sort(tokens.begin(), tokens.begin()+3, tokens.end(), 
-            [](vector<int> left, vector<int> right){
-                return accumulate(left.begin(), left.end(), 0) > accumulate(right.begin(), right.end(), 0); 
-            });
-
-    cout << "Best elf : " << best_elf << endl ; 
-    best_elf = 0;
-    for (int i = 0; i < 3; i++){
-        best_elf += accumulate(tokens[i].begin(), tokens[i].end(), 0); 
-    }
-    cout << "First three: " << best_elf << endl ; 
+    // part 1 of the code
+    std::cout << "Max elf: "<< *std::max_element(elves.begin(), elves.end()) << "\n"; 
+    std::partial_sort( elves.begin(), elves.begin() + 3, elves.end(), std::greater_equal<int>());
+    long sum = 0; 
+    std::for_each(elves.begin(), elves.begin() + 3, [&sum](int& elem) {
+            sum += elem; 
+    });
+    std::cout << "Top 3 elves carry " << sum << std::endl; 
+    return 0; 
 }
