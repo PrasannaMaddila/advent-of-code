@@ -12,7 +12,7 @@ run: build day_${D}.o day_${D}.cpp
 	@echo "----------------------------------------"
 
 test: build day_${D}.o day_${D}.cpp
-	@echo "Running Day ${D}"
+	@echo "Testing Day ${D}"
 	@echo "----------------------------------------"
 	@ ./day_${D}.o  < inputs/input_${D}_test.txt
 	@echo "----------------------------------------"
