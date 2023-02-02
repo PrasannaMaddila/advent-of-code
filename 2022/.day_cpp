@@ -1,0 +1,18 @@
+#include <iostream>
+#include <string>
+#include <array>
+
+int part1(){
+    int score = 0; 
+    return score; 
+}
+
+int part2(){
+    int score = 0; 
+    return score; 
+}
+
+int main(){
+//    part1(); 
+//    part2(); 
+}
