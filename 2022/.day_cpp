@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
-#include <array>
+#include <algorithm>
+
+// all the uses 
+using std::string;
 
 int part1(){
     int score = 0; 
@@ -12,7 +15,8 @@ int part2(){
     return score; 
 }
 
+
 int main(){
-//    part1(); 
-//    part2(); 
+    std::cout << "Part 1: " << part1() << std::endl; 
+    //std::cout << "Part 2: " << part2() << std::endl; 
 }
