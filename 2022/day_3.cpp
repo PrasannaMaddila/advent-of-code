@@ -1,10 +1,4 @@
-#include <iostream>
-#include <string>
-#include <algorithm>
-#include <array>
-
-using std::string; 
-using std::array; 
+#include "util.hpp"
 
 int get_score(const string& buffer){
     int score = 0; 
@@ -15,12 +9,12 @@ int get_score(const string& buffer){
     return score;  
 }
 
-int part1(){
+int part1(ifstream& stream){
     int len; 
     string buffer, common, temp; 
     array<string, 2> split_buf; 
 
-    while(std::cin >> buffer){     
+    while(stream >> buffer){     
         // split by length
         len = buffer.length() / 2;  
         for (int i = 0; i < 2; i++){
@@ -45,12 +39,12 @@ int part1(){
     return get_score(common);
 }
 
-int part2(){
+int part2(ifstream& stream){
     array<string, 3> buffer;
     array<string, 2> temp;
     string common;
 
-    while(std::cin >> buffer[0] >> buffer[1] >> buffer[2]){     
+    while(stream >> buffer[0] >> buffer[1] >> buffer[2]){     
         // prepare them for set_intersection
         for (auto& buf: buffer){
             std::sort(buf.begin(), buf.end()); 
@@ -79,7 +73,9 @@ int part2(){
 }
 
 
-int main(){
-    //std::cout << "Part 1: score = " << part1() << "\n"; 
-    std::cout << "Part 2: score = " << part2() << "\n"; 
+int main(int argc, char** argv){
+    auto stream = create_ifstream_from_filename(argv[1]); 
+    std::cout << "Part 1: score = " << part1(stream) << "\n"; 
+    reset_ifstream(stream); 
+    std::cout << "Part 2: score = " << part2(stream) << "\n"; 
 }

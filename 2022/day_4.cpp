@@ -1,14 +1,7 @@
-#include <iostream>
-#include <string>
 #include <array>
 #include <functional>
 #include <algorithm>
-#include <fstream>
-
-// all the uses 
-using std::string;
-using std::array;
-using std::ifstream; 
+#include "util.hpp"
 
 array<string, 2> split_by_char(const string& str, char delim){
     array<string, 2> result; 
@@ -67,16 +60,8 @@ int part2(ifstream& stream){
 
 
 int main(int argc, char** argv){
-    ifstream stream{argv[1]}; 
-    if ( !stream.is_open() ){
-        std::cerr << "Opening " << argv[1] << " failed. Exiting"; 
-        exit(1); 
-    }
- 
+    auto stream = create_ifstream_from_filename( argv[1] ); 
     std::cout << "Part 1: " << part1(stream) << '\n'; 
-
-    stream.clear(); 
-    stream.seekg(0); 
-
+    reset_ifstream( stream ); 
     std::cout << "Part 2: " << part2(stream) << std::endl; 
 }
