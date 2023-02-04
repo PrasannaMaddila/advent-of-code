@@ -3,10 +3,12 @@
 #include <array>
 #include <functional>
 #include <algorithm>
+#include <fstream>
 
 // all the uses 
 using std::string;
 using std::array;
+using std::ifstream; 
 
 array<string, 2> split_by_char(const string& str, char delim){
     array<string, 2> result; 
@@ -20,7 +22,7 @@ array<string, 2> split_by_char(const string& str, char delim){
     return result; 
 }
 
-int parse_and_get_score( std::function<void(array<int, 4>&, int&)> check){
+int parse_and_get_score( std::function<void(array<int, 4>&, int&)> check, ifstream& stream){
     
     // bounds is an array of 4: the first two are for
     // the first range, the last two are for the second. 
@@ -28,7 +30,7 @@ int parse_and_get_score( std::function<void(array<int, 4>&, int&)> check){
     int score = 0, ctr = 0;
     string buffer;
     
-    while(std::cin >> buffer){
+    while(stream >> buffer){
         // process the input
         for (const string& range: split_by_char(buffer, ',') ){        
             for (const string& number: split_by_char(range, '-'))
@@ -40,18 +42,17 @@ int parse_and_get_score( std::function<void(array<int, 4>&, int&)> check){
     return score; 
 }
 
-
-int part1(){
+int part1(ifstream& stream){
     auto part1_check = [](array<int, 4>& bounds, int& score){
             bool check_left  = bounds.at(0) <= bounds.at(2) && bounds.at(1) >= bounds.at(3); 
             bool check_right = bounds.at(0) >= bounds.at(2) && bounds.at(1) <= bounds.at(3); 
             if (check_left || check_right) score += 1; 
         };
 
-    return parse_and_get_score( part1_check ); 
+    return parse_and_get_score( part1_check, stream ); 
 }
 
-int part2(){
+int part2(ifstream& stream){
     auto part2_check = [](array<int, 4>& bounds, int& score){
             if (bounds[0] > bounds[3]){
                 // swap the pairs to get the lowest first.
@@ -61,11 +62,21 @@ int part2(){
             bool check_partial = bounds[1] >= bounds[2]; 
             if (check_left || check_partial) score += 1; 
         };
-    return parse_and_get_score( part2_check ); 
+    return parse_and_get_score( part2_check, stream ); 
 }
 
 
-int main(){
-    //std::cout << "Part 1: " << part1() << std::endl; 
-    std::cout << "Part 2: " << part2() << std::endl; 
+int main(int argc, char** argv){
+    ifstream stream{argv[1]}; 
+    if ( !stream.is_open() ){
+        std::cerr << "Opening " << argv[1] << " failed. Exiting"; 
+        exit(1); 
+    }
+ 
+    std::cout << "Part 1: " << part1(stream) << '\n'; 
+
+    stream.clear(); 
+    stream.seekg(0); 
+
+    std::cout << "Part 2: " << part2(stream) << std::endl; 
 }

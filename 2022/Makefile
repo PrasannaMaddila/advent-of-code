@@ -9,13 +9,13 @@ build: day_$(D).cpp
 run: build day_${D}.out day_${D}.cpp
 	@echo "Running Day ${D}"
 	@echo "----------------------------------------"
-	@ ./day_${D}.out  < inputs/input_${D}.txt
+	@ ./day_${D}.out inputs/input_${D}.txt
 	@echo "----------------------------------------"
 
 test: build day_${D}.out day_${D}.cpp
 	@echo "Testing Day ${D}"
 	@echo "----------------------------------------"
-	@ ./day_${D}.out  < inputs/input_${D}_test.txt
+	@ ./day_${D}.out inputs/input_${D}_test.txt
 	@echo "----------------------------------------"
 
 day: 
