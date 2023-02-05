@@ -1,7 +1,7 @@
-#include <array>
-#include <functional>
-#include <algorithm>
-#include "util.hpp"
+#ifndef DAY_4_CPP
+#define DAY_4_CPP
+
+#include "../utils/util.hpp"
 
 array<string, 2> split_by_char(const string& str, char delim){
     array<string, 2> result; 
@@ -35,6 +35,7 @@ int parse_and_get_score( std::function<void(array<int, 4>&, int&)> check, ifstre
     return score; 
 }
 
+#define PART_1
 int part1(ifstream& stream){
     auto part1_check = [](array<int, 4>& bounds, int& score){
         bool check_left  = bounds.at(0) <= bounds.at(2) && bounds.at(1) >= bounds.at(3); 
@@ -45,6 +46,7 @@ int part1(ifstream& stream){
     return parse_and_get_score( part1_check, stream ); 
 }
 
+#define PART_2
 int part2(ifstream& stream){
     auto part2_check = [](array<int, 4>& bounds, int& score){
         if (bounds[0] > bounds[3]){
@@ -58,10 +60,4 @@ int part2(ifstream& stream){
     return parse_and_get_score( part2_check, stream ); 
 }
 
-int main(int argc, char** argv){
-    Register("Part 1", part1);
-    Register("Part 2", part2);
-
-    ::benchmark::Initialize(&argc, argv);
-    ::benchmark::RunSpecifiedBenchmarks();
-}
+#endif
