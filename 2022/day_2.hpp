@@ -1,4 +1,7 @@
-#include "util.hpp"
+#ifndef DAY_2_HPP
+#define DAY_2_HPP
+
+#include "../utils/util.hpp"
 #include<map>
 
 using std::map; 
@@ -16,7 +19,7 @@ Moveset SELF{{'X', Rock}, {'Y', Paper}, {'Z', Scissors}};
 Strategy ST_SELF{{'X', Lose}, {'Y', Draw}, {'Z', Win}}; 
 
 
-// Code for part 1
+#define PART_1
 int part1(ifstream& stream) {
     signed int score = 0, round_res = 0;
     char oppn, self; 
@@ -29,7 +32,7 @@ int part1(ifstream& stream) {
     return score; 
 }
 
-// Code for part 2 
+#define PART_2
 int part2(ifstream& stream){
     signed int score = 0, round_res = 0, self_int = 0;
     char oppn, dec, self_move;
@@ -49,9 +52,4 @@ int part2(ifstream& stream){
     return score; 
 }
 
-int main(int argc, char** argv){
-    auto stream = create_ifstream_from_filename(argv[1]); 
-    std::cout << "Part 1: score = " << part1(stream) << "\n"; 
-    reset_ifstream(stream); 
-    std::cout << "Part 2: score = " << part2(stream) << "\n"; 
-}
+#endif 

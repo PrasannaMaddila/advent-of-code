@@ -1,4 +1,7 @@
-#include "util.hpp"
+#ifndef DAY_3_HPP
+#define DAY_3_HPP
+
+#include "../utils/util.hpp"
 
 int get_score(const string& buffer){
     int score = 0; 
@@ -9,6 +12,7 @@ int get_score(const string& buffer){
     return score;  
 }
 
+#define PART_1
 int part1(ifstream& stream){
     int len; 
     string buffer, common, temp; 
@@ -39,6 +43,7 @@ int part1(ifstream& stream){
     return get_score(common);
 }
 
+#define PART_2
 int part2(ifstream& stream){
     array<string, 3> buffer;
     array<string, 2> temp;
@@ -72,10 +77,4 @@ int part2(ifstream& stream){
     return get_score(common);
 }
 
-
-int main(int argc, char** argv){
-    auto stream = create_ifstream_from_filename(argv[1]); 
-    std::cout << "Part 1: score = " << part1(stream) << "\n"; 
-    reset_ifstream(stream); 
-    std::cout << "Part 2: score = " << part2(stream) << "\n"; 
-}
+#endif

@@ -1,5 +1,5 @@
-#ifndef DAY_TEMP_CPP
-#define DAY_TEMP_CPP
+#ifndef DAY_TEMP_HPP
+#define DAY_TEMP_HPP
 
 #include "../utils/util.hpp"
 
