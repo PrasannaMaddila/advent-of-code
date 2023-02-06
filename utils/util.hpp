@@ -1,6 +1,4 @@
-#ifndef UTIL_H
-#define UTIL_H
-
+#pragma once 
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -28,4 +26,3 @@ void reset_ifstream(ifstream& stream){
     stream.seekg(0); 
 }
 
-#endif

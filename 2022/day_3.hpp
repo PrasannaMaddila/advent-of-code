@@ -1,6 +1,4 @@
-#ifndef DAY_3_HPP
-#define DAY_3_HPP
-
+#pragma once
 #include "../utils/util.hpp"
 
 int get_score(const string& buffer){
@@ -76,5 +74,3 @@ int part2(ifstream& stream){
     }
     return get_score(common);
 }
-
-#endif

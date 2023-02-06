@@ -1,6 +1,4 @@
-#ifndef DAY_1_HPP
-#define DAY_1_HPP
-
+#pragma once
 #include "../utils/util.hpp"
 
 int parse_and_work (ifstream& in_stream, std::function<int(vector<int>&)> worker ){
@@ -47,4 +45,3 @@ int part2(ifstream& in_stream){
     }; 
     return parse_and_work ( in_stream, part2_lambda );  
 }
-#endif

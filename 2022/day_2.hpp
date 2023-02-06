@@ -1,5 +1,4 @@
-#ifndef DAY_2_HPP
-#define DAY_2_HPP
+#pragma once
 
 #include "../utils/util.hpp"
 #include<map>
@@ -52,4 +51,3 @@ int part2(ifstream& stream){
     return score; 
 }
 
-#endif 

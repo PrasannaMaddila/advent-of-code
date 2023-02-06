@@ -1,6 +1,4 @@
-#ifndef DAY_TEMP_HPP
-#define DAY_TEMP_HPP
-
+#pragma once
 #include "../utils/util.hpp"
 
 #define PART_1
@@ -14,5 +12,3 @@ int part2(ifstream& stream){
     int result = 0; 
     return result;
 }
-
-#endif

@@ -1,6 +1,4 @@
-#ifndef DAY_4_CPP
-#define DAY_4_CPP
-
+#pragma once
 #include "../utils/util.hpp"
 
 array<string, 2> split_by_char(const string& str, char delim){
@@ -59,5 +57,3 @@ int part2(ifstream& stream){
     };
     return parse_and_get_score( part2_check, stream ); 
 }
-
-#endif

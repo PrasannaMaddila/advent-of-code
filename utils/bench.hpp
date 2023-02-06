@@ -1,14 +1,11 @@
-#ifndef BENCHMARK_H
-#define BENCHMARK_H
-
+#pragma once
 #include <benchmark/benchmark.h>
 
 static void bench_part(benchmark::State &state, int(*func)(ifstream&), const char* filename){
-    int result = 0; 
     auto in_stream = create_ifstream_from_filename( filename ); 
     for (auto _ : state){
         // measure the result !!!
-        benchmark::DoNotOptimize( result = func(in_stream) ); 
+        benchmark::DoNotOptimize( func(in_stream) ); 
 
         // don't measure the reset !!! 
         state.PauseTiming(); 
@@ -20,4 +17,3 @@ static void bench_part(benchmark::State &state, int(*func)(ifstream&), const cha
 #define Register(name, func) \
     benchmark::RegisterBenchmark(name, bench_part, func, argv[1]);
 
-#endif

@@ -15,7 +15,7 @@ UTILS_DIR=utils
 BUILD_DIR=build
 INPUT_DIR=inputs
 
-.PHONY: all run test bench
+.PHONY: build run test build_bench bench
 
 build: ./$(YEAR)/day_$(DAY).hpp
 	@echo "Building Day $(DAY)"
