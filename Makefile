@@ -46,7 +46,8 @@ build_bench: ./$(YEAR)/day_$(DAY).hpp
 bench: build_bench 
 	@echo "Running bench version for Day $(DAY)\n"
 	@echo "-----------------------------------------------------"
-	@./$(BUILD_DIR)/day_bench_$(DAY).out ./$(YEAR)/$(INPUT_DIR)/input_$(DAY).txt
+	@./$(BUILD_DIR)/day_bench_$(DAY).out ./$(YEAR)/$(INPUT_DIR)/input_$(DAY).txt \
+		--benchmark_report_aggregates_only=true \
 	@echo "-----------------------------------------------------"
 
 day: 

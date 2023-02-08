@@ -1,18 +1,16 @@
 #pragma once
 #include <benchmark/benchmark.h>
 
-static void bench_part(benchmark::State &state, int(*func)(ifstream&), const char* filename){
+template<typename Callable>
+static void bench_part(benchmark::State &state, Callable&& func, const char* filename){
     ifstream in_stream = create_ifstream_from_filename( filename ); 
     for (auto _ : state){
         // measure the result !!!
         benchmark::DoNotOptimize( func(in_stream) ); 
-
-        // don't measure the reset !!! 
-        state.PauseTiming(); 
         reset_ifstream( in_stream );  
-        state.ResumeTiming(); 
     }
 }
 
-#define Register(name, func) \
-    benchmark::RegisterBenchmark(name, bench_part, func, argv[1]);
+#define Register(name, func)           \
+    benchmark::RegisterBenchmark(name, \
+            bench_part<decltype(func)>, func, argv[1]);

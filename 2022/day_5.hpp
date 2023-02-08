@@ -1,6 +1,7 @@
 #pragma once
 #include "../utils/util.hpp"
 #include<deque>
+#include<stdio.h>
 
 using std::deque;
 using std::function;
@@ -19,20 +20,17 @@ inline int get_stack_num( int pos ) {
     return ( pos + 1 ) / 4;
 }
 void disp_pile( pile_type& pile ) {
-    std::cout << '\n';
+    std::cout << "\n|>";
     for( auto const& stack: pile ){
-        std::cout << "|> "; 
-        if (!stack.empty()) 
-            for (char cr: stack) 
-                std::cout << cr << ' ';
-        std::cout << '\n';
+        if (stack.empty()) continue;  
+        for (char cr: stack) std::cout << cr << ' ';
+        std::cout << "\n|>";
     }
 }
 
 string parse_and_work(ifstream& stream, worker_type worker){
     string buffer;
     pile_type pile; 
-    array<string, 3> words; 
     array<int, 3> instr;
     stringstream sstr;
 
@@ -54,33 +52,29 @@ string parse_and_work(ifstream& stream, worker_type worker){
 
     while( std::getline(stream, buffer, '\n') ){
         if ( buffer.empty() ) break;        // Only working on non-empty lines.
-        sstr << buffer;                     // Using the sstream to parse.
-        for (int i=0; i<3; i++)             // Reading each move instruction
-            sstr >> words[i] >> instr[i];
-
+        sscanf(buffer.c_str(),              // Read from the buffer using sscanf
+            "move %d from %d to %d", 
+            &instr[0], &instr[1], &instr[2]); 
         instr[SRC] -= 1; instr[DEST] -= 1;  // decrement to put them in range.
         worker( instr, pile );              // call the worker 
         sstr.clear();                       // clean up the stringstream after use!!!
     }
-    
+
     // Putting the top crate into buffer and returning. 
     buffer.clear(); 
-    std::for_each( pile.begin(), pile.end(), [&buffer](crates cr){
-            buffer += cr.back();
-            });
+    std::for_each( pile.begin(), pile.end(), 
+            [&buffer](crates cr){ buffer += cr.back(); });
     return buffer;
 }
 
 #define PART_1
 string part1(ifstream& stream){
     worker_type worker = [](array<int, 3>& instr, pile_type& pile){
-         for ( int ctr = instr[NUM]; ctr > 0; ctr-- ){
-            pile.at( instr[DEST] )
-                .push_back( pile.at(instr[SRC]).back() );
+        for ( int ctr = instr[NUM]; ctr > 0; ctr-- ){
+            pile.at( instr[DEST] ).push_back( pile.at(instr[SRC]).back() );
             pile.at(instr[SRC]).pop_back();
         }// end of instruction
     };
-
     return parse_and_work( stream, worker );
 }
 
@@ -89,11 +83,12 @@ string part2(ifstream& stream){
     worker_type worker = [](array<int, 3>& instr, pile_type& pile){
         int pos = pile.at( instr[DEST] ).size();        // inserting at this location 
         for ( int ctr = instr[NUM]; ctr > 0; ctr-- ){
-            pile.at( instr[DEST] )
-                .insert( pile.at(instr[DEST]).begin() + pos, pile.at(instr[SRC]).back() );
-            pile.at(instr[SRC]).pop_back();
+            pile.at( instr[DEST] ).insert(              // insert begins here.
+                pile.at(instr[DEST]).begin() + pos,     // location: begin+offet(pos)
+                pile.at(instr[SRC]).back()              // inserting from SRC.back()
+            );
+            pile.at(instr[SRC]).pop_back();             // pop removes inserted crate from SRC
         }// end of instruction
     };
-
     return parse_and_work( stream, worker );
 }

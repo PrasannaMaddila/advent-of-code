@@ -15,7 +15,7 @@ using std::ifstream;
 using std::stringstream;
 
 ifstream create_ifstream_from_filename(const string& filename){
-    ifstream stream{filename}; 
+    ifstream stream(filename, std::ios::binary); 
     if ( !stream.is_open() ){
         std::cerr << "Opening " << filename << " failed. Exiting"; 
         exit(1); 
