@@ -5,7 +5,7 @@
 
 # Manage the compiler flags.
 CC=g++
-FLAGS=-Wall -O2 -fno-pretty-templates
+FLAGS=-O2 -fno-pretty-templates 
 
 DAY=1
 YEAR=2022

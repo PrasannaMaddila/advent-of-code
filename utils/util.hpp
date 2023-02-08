@@ -6,11 +6,13 @@
 #include <array>
 #include <algorithm>
 #include <functional>
+#include <sstream>
 
 using std::string; 
 using std::array; 
 using std::vector; 
 using std::ifstream; 
+using std::stringstream;
 
 ifstream create_ifstream_from_filename(const string& filename){
     ifstream stream{filename}; 

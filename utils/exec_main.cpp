@@ -10,5 +10,3 @@ int main(int argc, char** argv){
         std::cout << "Result of Part 2 = " << part2( in_stream ) << '\n'; 
     #endif
 }    
-
-
