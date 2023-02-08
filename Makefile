@@ -5,10 +5,11 @@
 
 # Manage the compiler flags.
 CC=g++
-FLAGS=-O2 -fno-pretty-templates 
+FLAGS=-Wall -O2 -fmessage-length=100 -march=native -fdiagnostics-show-location=every-line
 
 DAY=1
 YEAR=2022
+TIME_UNIT=us
 
 # Define the input/output directories
 UTILS_DIR=utils
@@ -47,7 +48,7 @@ bench: build_bench
 	@echo "Running bench version for Day $(DAY)\n"
 	@echo "-----------------------------------------------------"
 	@./$(BUILD_DIR)/day_bench_$(DAY).out ./$(YEAR)/$(INPUT_DIR)/input_$(DAY).txt \
-		--benchmark_report_aggregates_only=true \
+		--benchmark_time_unit=$(TIME_UNIT) \
 	@echo "-----------------------------------------------------"
 
 day: 

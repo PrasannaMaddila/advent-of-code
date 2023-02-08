@@ -4,35 +4,28 @@
 #include<stdio.h>
 
 using std::deque;
-using std::function;
+
+// user defined types
 using crate = char;
 using crates = deque<crate>;
 using pile_type = vector< crates >; 
-using worker_type = function< void(array<int, 3>&, pile_type&) >;
+
+typedef void (*worker_type)(array<int, 3>&, pile_type&);
 
 const int NUM  = 0;
 const int SRC  = 1;
 const int DEST = 2;
 
-inline int get_stack_num( int pos ) {
+constexpr inline int get_stack_num( const int pos ) {
     // equation is 4*x - 1 = buffer.size().
     // 3x per crate , and x-1 spaces per line.
     return ( pos + 1 ) / 4;
-}
-void disp_pile( pile_type& pile ) {
-    std::cout << "\n|>";
-    for( auto const& stack: pile ){
-        if (stack.empty()) continue;  
-        for (char cr: stack) std::cout << cr << ' ';
-        std::cout << "\n|>";
-    }
 }
 
 string parse_and_work(ifstream& stream, worker_type worker){
     string buffer;
     pile_type pile; 
     array<int, 3> instr;
-    stringstream sstr;
 
     // read the first line to get number of stacks 
     std::getline(stream, buffer, '\n');
@@ -57,7 +50,6 @@ string parse_and_work(ifstream& stream, worker_type worker){
             &instr[0], &instr[1], &instr[2]); 
         instr[SRC] -= 1; instr[DEST] -= 1;  // decrement to put them in range.
         worker( instr, pile );              // call the worker 
-        sstr.clear();                       // clean up the stringstream after use!!!
     }
 
     // Putting the top crate into buffer and returning. 
