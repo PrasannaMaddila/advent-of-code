@@ -1,7 +1,8 @@
 #include HEADER
 
 int main(int argc, char** argv){
-    ifstream in_stream{argv[1]}; 
+    std::ios::sync_with_stdio(false);
+    ifstream in_stream(argv[1], std::ifstream::binary); 
     #ifdef PART_1
         std::cout << "Result of Part 1 = " << part1( in_stream ) << '\n'; 
     #endif

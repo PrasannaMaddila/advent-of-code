@@ -23,10 +23,10 @@ constexpr inline int get_stack_num( const int pos ) {
 }
 
 string parse_and_work(ifstream& stream, worker_type worker){
-    string buffer;
-    pile_type pile; 
+    string buffer(100, ' ');
+    pile_type pile; pile.reserve(10);
     array<int, 3> instr;
-
+    
     // read the first line to get number of stacks 
     std::getline(stream, buffer, '\n');
     for ( int i = 0; i < get_stack_num(buffer.size()); i++) 

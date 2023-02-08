@@ -4,6 +4,7 @@
 // header for benchmarking the registered functions.
 int main(int argc, char** argv){
     
+    std::ios::sync_with_stdio(false);
     #ifdef PART_1
         Register("Part 1", part1);
     #endif

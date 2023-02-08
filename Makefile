@@ -16,7 +16,7 @@ UTILS_DIR=utils
 BUILD_DIR=build
 INPUT_DIR=inputs
 
-.PHONY: build run test build_bench bench
+.PHONY: build run test build_bench bench perf
 
 build: ./$(YEAR)/day_$(DAY).hpp
 	@echo "Building Day $(DAY)"
@@ -51,9 +51,16 @@ bench: build_bench
 		--benchmark_time_unit=$(TIME_UNIT) \
 	@echo "-----------------------------------------------------"
 
+perf: ./$(BUILD_DIR)/day_$(DAY).out
+	@echo "Running performance tests"
+	perf record -g ./$(BUILD_DIR)/day_$(DAY).out $(YEAR)/$(INPUT_DIR)/input_$(DAY).txt
+	perf report -g
+
 day: 
 	@echo "Creating template for Day $(YEAR)/$(DAY)"
 	@cp .day_template $(YEAR)/day_$(DAY).hpp
 
 clean:
 	rm ./$(BUILD_DIR)/*.out
+	rm ./perf.data*
+	rm ./*.annotation
