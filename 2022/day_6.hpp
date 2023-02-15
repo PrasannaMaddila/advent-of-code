@@ -1,9 +1,5 @@
 #pragma once
 #include "../utils/util.hpp"
-#include <deque>
-
-using std::deque; 
-
 
 int worker(ifstream& stream, const int buflen){
     string buffer, intern_buf;
@@ -27,7 +23,6 @@ int worker(ifstream& stream, const int buflen){
 int part1(ifstream& stream){
     return worker(stream, 4);
 }
-
 
 #define PART_2
 int part2(ifstream& stream){
