@@ -1,9 +1,10 @@
 #pragma once
 #include "../utils/util.hpp"
-#include<deque>
 #include<stdio.h>
+#include<deque>
 
 using std::deque;
+using std::getline;
 
 // user defined types
 using crate = char;
@@ -24,26 +25,27 @@ constexpr inline int get_stack_num( const int pos ) {
 
 string parse_and_work(ifstream& stream, worker_type worker){
     string buffer(100, ' ');
-    pile_type pile; pile.reserve(10);
+    pile_type pile; 
     array<int, 3> instr;
-    
     // read the first line to get number of stacks 
-    std::getline(stream, buffer, '\n');
-    for ( int i = 0; i < get_stack_num(buffer.size()); i++) 
+    getline(stream, buffer, '\n');
+    const int num_stacks = get_stack_num(buffer.size());
+    pile.reserve(num_stacks);
+    for ( int i = 0; i < num_stacks ; i++) 
         pile.push_back( crates() ); 
     reset_ifstream( stream ); 
 
     // now to read the stacks and get the output.
-    while ( std::getline( stream, buffer, '\n' ) ){
+    while ( getline( stream, buffer, '\n' ) ){
         if ( buffer.find('[') == string::npos ) break;
         for (int i=0; i < buffer.size(); i++){
             if (buffer[i] == '[')
                 pile.at( get_stack_num(i) ).push_front( buffer[++i] );
         }
     }
-    std::getline( stream, buffer, '\n');    // Get the cursor to the first instruction line.
+    getline( stream, buffer, '\n');    // Get the cursor to the first instruction line.
 
-    while( std::getline(stream, buffer, '\n') ){
+    while( getline(stream, buffer, '\n') ){
         if ( buffer.empty() ) break;        // Only working on non-empty lines.
         sscanf(buffer.c_str(),              // Read from the buffer using sscanf
             "move %d from %d to %d", 
@@ -54,6 +56,7 @@ string parse_and_work(ifstream& stream, worker_type worker){
 
     // Putting the top crate into buffer and returning. 
     buffer.clear(); 
+    buffer.reserve(num_stacks); 
     std::for_each( pile.begin(), pile.end(), 
             [&buffer](crates cr){ buffer += cr.back(); });
     return buffer;
@@ -73,13 +76,16 @@ string part1(ifstream& stream){
 #define PART_2
 string part2(ifstream& stream){
     worker_type worker = [](array<int, 3>& instr, pile_type& pile){
-        int pos = pile.at( instr[DEST] ).size();        // inserting at this location 
+        int pos = pile.at( instr[DEST] ).size();        // inserting at this location
+        auto beg_itr = pile.at(instr[DEST]).begin(); 
+        auto& source_stk = pile.at(instr[SRC]);
+
         for ( int ctr = instr[NUM]; ctr > 0; ctr-- ){
             pile.at( instr[DEST] ).insert(              // insert begins here.
-                pile.at(instr[DEST]).begin() + pos,     // location: begin+offet(pos)
-                pile.at(instr[SRC]).back()              // inserting from SRC.back()
+                beg_itr + pos,                          // location: begin+offet(pos)
+                source_stk.back()                       // inserting from SRC.back()
             );
-            pile.at(instr[SRC]).pop_back();             // pop removes inserted crate from SRC
+           source_stk.pop_back();             // pop removes inserted crate from SRC
         }// end of instruction
     };
     return parse_and_work( stream, worker );

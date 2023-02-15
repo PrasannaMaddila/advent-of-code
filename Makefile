@@ -9,7 +9,7 @@ FLAGS=-Wall -O2 -fmessage-length=100 -march=native -fdiagnostics-show-location=e
 
 DAY=1
 YEAR=2022
-TIME_UNIT=us
+TUNIT=ms
 
 # Define the input/output directories
 UTILS_DIR=utils
@@ -46,10 +46,12 @@ build_bench: ./$(YEAR)/day_$(DAY).hpp
 
 bench: build_bench 
 	@echo "Running bench version for Day $(DAY)\n"
+	@sudo cpupower frequency-set --governor performance > /dev/null
 	@echo "-----------------------------------------------------"
 	@./$(BUILD_DIR)/day_bench_$(DAY).out ./$(YEAR)/$(INPUT_DIR)/input_$(DAY).txt \
-		--benchmark_time_unit=$(TIME_UNIT) \
+		--benchmark_time_unit=$(TUNIT) \
 	@echo "-----------------------------------------------------"
+	@sudo cpupower frequency-set --governor performance > /dev/null
 
 perf: ./$(BUILD_DIR)/day_$(DAY).out
 	@echo "Running performance tests"
